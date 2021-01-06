@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
+import React, { useState, useEffect } from 'react'
+import Button from './components/Button'
+import productService from './services/productService'
+
+const App = () => {
+  const [category, setCategory] = useState("gloves")
+
+  useEffect(() => {
+    productService
+      .getAll(category)
+      .then(data => {
+        console.log(data)
+      })
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Warehouse</h1>
+      <Button text={"gloves"} handler={() => setCategory("gloves")} />
+      <Button text={"facemasks"} handler={() => setCategory("facemasks")} />
+      <Button text={"beanies"} handler={() => setCategory("beanies")} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
