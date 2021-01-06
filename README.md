@@ -1,2 +1,2 @@
-# warehouse_web_app
+# warehouse
 Simple web app (job interview assignment)
