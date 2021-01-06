@@ -1,11 +1,32 @@
 
 import React, { useState, useEffect } from 'react'
-import Button from './components/Button'
+import CategoryBar from './components/CategoryBar'
+import ProductList from './components/ProductList'
 import productService from './services/productService'
 
-const App = () => {
-  const [category, setCategory] = useState("gloves")
+// hard coded list of all possible product categories
+const CATEGORIES = [
+  {
+    "id": 0,
+    "name": "gloves"
+  },
+  {
+    "id": 1,
+    "name": "facemasks"
+  },
+  {
+    "id": 2,
+    "name": "beanies"
+  }
+]
 
+
+const App = () => {
+
+  // state information
+  const [category, setCategory] = useState(CATEGORIES[0].name)
+
+  // when loaded for the first time
   useEffect(() => {
     productService
       .getAll(category)
@@ -14,12 +35,12 @@ const App = () => {
       })
   }, [])
 
+  // render
   return (
     <div>
       <h1>Warehouse</h1>
-      <Button text={"gloves"} handler={() => setCategory("gloves")} />
-      <Button text={"facemasks"} handler={() => setCategory("facemasks")} />
-      <Button text={"beanies"} handler={() => setCategory("beanies")} />
+      <CategoryBar categories={CATEGORIES} setCategory={setCategory} />
+      <ProductList category={category} />
     </div>
   )
 }
