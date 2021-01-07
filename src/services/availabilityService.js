@@ -3,7 +3,11 @@ const baseUrl = '/v2/availability/'
 
 // get product availability information from given manufacturer
 const getAll = (manufacturer) => {
-  return axios.get(`${baseUrl}/${manufacturer}`).then(response => response.data)
+  return axios
+    .get(`${baseUrl}/${manufacturer}`)
+    .then(response => response.data)
+    .catch(error => console.log(error))
 }
 
-export default { getAll }
+const service = { getAll }
+export default service

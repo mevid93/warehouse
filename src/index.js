@@ -5,11 +5,13 @@ import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux'; 
 import categoryReducer from './reducers/categoryReducer';
 import productsReducer from './reducers/productsReducer';
+import pageReducer from './reducers/pageReducer'
 
 // create combined reducer
 const reducer = combineReducers({
   category: categoryReducer,
-  products: productsReducer
+  products: productsReducer,
+  page: pageReducer
 })
 
 // create store

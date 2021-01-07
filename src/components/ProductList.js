@@ -1,16 +1,21 @@
 import { useSelector } from 'react-redux'
 
-// single product element in a list
+// component representing single product element in a list
 const Product = (props) => {
+
+  // style for product
+  const productStyle = {
+    "border": "1px solid black"
+  }
 
   // render
   return (
     <tr>
-      <td>{props.name}</td>
-      <td>{props.manufacturer}</td>
-      <td>{props.color.toString()}</td>
-      <td>{props.price}</td>
-      <td>{props.availability}</td>
+      <td style={productStyle}>{props.name}</td>
+      <td style={productStyle}>{props.manufacturer}</td>
+      <td style={productStyle}>{props.color.toString()}</td>
+      <td style={productStyle}>{props.price}</td>
+      <td style={productStyle}>{props.availability}</td>
     </tr>
   )
 }
@@ -23,13 +28,20 @@ const ProductList = () => {
   // redux store
   const category = useSelector(state => state.category)
   const products = useSelector(state => state.products)
+  const page = useSelector(state => state.page)
 
   // on each page, show 25 products
-  const productsToShow = products.slice(0, 25)
+  const maxProductIndex = Math.min(page * 25, products.length - 1)
+  const minProductIndex = Math.max(maxProductIndex - 25, 0)
+  let productsToShow = []
+  if (products.length > 0) {
+    productsToShow = products.slice(minProductIndex, maxProductIndex)
+  }
 
   // css for table
   const productListStyle = {
-    "width": "80%"
+    "width": "80%",
+    "border": "1px solid black"
   }
 
   // render
@@ -52,7 +64,7 @@ const ProductList = () => {
             manufacturer={p.manufacturer}
             color={p.color}
             price={p.price}
-            availability={"TODO!"}
+            availability={p.availability}
           />)}
         </tbody>
       </table>

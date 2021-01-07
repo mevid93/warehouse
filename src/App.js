@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react'
 import CategoryBar from './components/CategoryBar'
 import ProductList from './components/ProductList'
+import Pagination from './components/Pagination'
 import listingService from './services/listingService'
 import { useSelector, useDispatch } from 'react-redux'
 import { productsChange } from './reducers/productsReducer'
@@ -22,7 +23,6 @@ const CATEGORIES = [
   }
 ]
 
-
 const App = () => {
 
   // redux
@@ -39,9 +39,10 @@ const App = () => {
   // render
   return (
     <div>
-      <h1>Warehouse 1.0.0</h1>
+      <h1>Warehouse 1.0</h1>
       <CategoryBar categories={CATEGORIES} />
       <ProductList />
+      <Pagination />
     </div>
   )
 }
