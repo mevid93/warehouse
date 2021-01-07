@@ -6,4 +6,5 @@ const getAll = (category) => {
   return axios.get(`${baseUrl}/${category}`).then(response => response.data)
 }
 
-export default { getAll }
+const service = { getAll }
+export default service

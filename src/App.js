@@ -1,8 +1,10 @@
 
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import CategoryBar from './components/CategoryBar'
 import ProductList from './components/ProductList'
-import productService from './services/productService'
+import listingService from './services/listingService'
+import { useSelector, useDispatch } from 'react-redux'
+import { productsChange } from './reducers/productsReducer'
 
 // hard coded list of all possible product categories
 const CATEGORIES = [
@@ -23,24 +25,23 @@ const CATEGORIES = [
 
 const App = () => {
 
-  // state information
-  const [category, setCategory] = useState(CATEGORIES[0].name)
+  // redux
+  const category = useSelector(state => state.category)
+  const dispatch = useDispatch()
 
   // when loaded for the first time
   useEffect(() => {
-    productService
+      listingService
       .getAll(category)
-      .then(data => {
-        console.log(data)
-      })
+      .then(products => dispatch(productsChange(products)))
   }, [])
 
   // render
   return (
     <div>
-      <h1>Warehouse</h1>
-      <CategoryBar categories={CATEGORIES} setCategory={setCategory} />
-      <ProductList category={category} />
+      <h1>Warehouse 1.0.0</h1>
+      <CategoryBar categories={CATEGORIES} />
+      <ProductList />
     </div>
   )
 }

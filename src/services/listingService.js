@@ -1,4 +1,4 @@
-import axios from 'axios'
+import productService from './productService'
 
 // this service will combine the results from the two legacy APIs
 // in order to provide the required functionality for the new application
@@ -8,10 +8,16 @@ import axios from 'axios'
 
 // get all the products from a given category and their availability information
 const getAll = (category) => {
+  return productService
+    .getAll(category)
+    .then(products => {
+      return products
+    })
+    .catch(error => {
+      // something went wrong --> notify the user
 
-  // TODO: Implement!!!
-
-  return {}
+    })
 }
 
-export default { getall }
+const service = { getAll }
+export default service

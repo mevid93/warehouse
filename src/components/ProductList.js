@@ -1,10 +1,42 @@
+import { useSelector } from 'react-redux'
 
-const ProductList = ({ category, productData }) => {
+// single product element in a list
+const Product = (props) => {
 
+  // render
+  return (
+    <tr>
+      <td>{props.name}</td>
+      <td>{props.manufacturer}</td>
+      <td>{props.color.toString()}</td>
+      <td>{props.price}</td>
+      <td>{props.availability}</td>
+    </tr>
+  )
+}
+
+
+// listing component where all the product of current
+// category are listed
+const ProductList = () => {
+
+  // redux store
+  const category = useSelector(state => state.category)
+  const products = useSelector(state => state.products)
+
+  // on each page, show 25 products
+  const productsToShow = products.slice(0, 25)
+
+  // css for table
+  const productListStyle = {
+    "width": "80%"
+  }
+
+  // render
   return (
     <div>
       <h2>Product category: {category}</h2>
-      <table>
+      <table style={productListStyle}>
         <thead>
           <tr>
             <th>Name</th>
@@ -15,13 +47,13 @@ const ProductList = ({ category, productData }) => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
+          {productsToShow.map(p => <Product key={p.id} 
+            name={p.name}
+            manufacturer={p.manufacturer}
+            color={p.color}
+            price={p.price}
+            availability={"TODO!"}
+          />)}
         </tbody>
       </table>
     </div>
