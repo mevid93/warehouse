@@ -2,6 +2,7 @@ import { categoryChange } from '../reducers/categoryReducer'
 import { useDispatch } from 'react-redux'
 import listingService from '../services/listingService'
 import { productsChange } from '../reducers/productsReducer'
+import { pageChange } from '../reducers/pageReducer'
 
 // navigation component where different product categories are listed
 const CategoryBar = ({ categories }) => {
@@ -23,7 +24,10 @@ const CategoryBar = ({ categories }) => {
   const handleCategoryClick = (category) => {
     listingService
       .getAll(category)
-      .then(products => dispatch(productsChange(products)))
+      .then(products => {
+        dispatch(pageChange(1))
+        dispatch(productsChange(products))
+      })
       .catch(error => console.log(error))
     dispatch(categoryChange(category))
   }
