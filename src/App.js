@@ -1,5 +1,6 @@
 
 import React, { useEffect } from 'react'
+import Notification from './components/Notification'
 import CategoryBar from './components/CategoryBar'
 import ProductList from './components/ProductList'
 import Pagination from './components/Pagination'
@@ -8,6 +9,7 @@ import availabilityService from './services/availabilityService'
 import { useSelector, useDispatch } from 'react-redux'
 import { productsChange } from './reducers/productsReducer'
 import { availabilitiesChange } from './reducers/availabilityReducer'
+import { notificationChange } from './reducers/notificationReducer'
 
 
 // hard coded list of all possible product categories
@@ -31,6 +33,7 @@ const App = () => {
   // redux
   const category = useSelector(state => state.category)
   const products = useSelector(state => state.products)
+  const availabilities = useSelector(state => state.availabilities)
   const dispatch = useDispatch()
 
   // when loaded for the first time
@@ -38,8 +41,7 @@ const App = () => {
     productService
       .getAll(category)
       .then(products => dispatch(productsChange(products)))
-      .then()
-      .catch(() => console.log("Error: Could not load products!"))
+      .catch()
   }, [])
 
   // when products change --> get availability information
@@ -58,11 +60,27 @@ const App = () => {
       const avails = availabilityService
         .getAll(m)
         .then(data => data)
-        .catch(() => console.log("Error: could not load availability information!"))
+        .catch(() => [])
       return avails
-    })).then(availabilities => {
-      if (!ignore) dispatch(availabilitiesChange(availabilities))
-    }).catch(() => console.log("Error: could not update availability information!"))
+    })).then(avails => {
+      if (!ignore) {
+        let newAvails = new Array(manufacturers.length)
+        let i = 0
+        avails.forEach(a => {
+          if (availabilities !== null && availabilities !== undefined && availabilities.length === manufacturers.length){
+            newAvails[i] = availabilities[i]
+          }
+          if (a.response !== undefined && a.response === "[]"){
+            dispatch(notificationChange("Could not retieve all latest availability information!"))
+            setTimeout(() => {dispatch(notificationChange(null))}, 5000)
+          }else{
+            newAvails[i] = a
+          }
+          i = i + 1
+        })
+        dispatch(availabilitiesChange(newAvails))
+      }
+    }).catch()
 
     return () => { ignore = true; }
   }, [products])
@@ -80,6 +98,7 @@ const App = () => {
         <div className="row justify-content-center">
           <h1>Warehouse 1.0</h1>
         </div>
+        <Notification error="true" />
         <CategoryBar categories={CATEGORIES} />
         <ProductList />
         <Pagination />
