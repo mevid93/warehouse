@@ -31,18 +31,28 @@ const App = () => {
 
   // when loaded for the first time
   useEffect(() => {
-      listingService
+    listingService
       .getAll(category)
       .then(products => dispatch(productsChange(products)))
   }, [])
 
+  // style
+  const appStyle = {
+    marginTop: "15px",
+    marginBottom: "15px"
+  }
+
   // render
   return (
-    <div>
-      <h1>Warehouse 1.0</h1>
-      <CategoryBar categories={CATEGORIES} />
-      <ProductList />
-      <Pagination />
+    <div style={appStyle}>
+      <div className="container">
+        <div className="row justify-content-center">
+          <h1>Warehouse 1.0</h1>
+        </div>
+        <CategoryBar categories={CATEGORIES} />
+        <ProductList />
+        <Pagination />
+      </div>
     </div>
   )
 }

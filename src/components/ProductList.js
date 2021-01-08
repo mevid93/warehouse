@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux'
+import { Table } from 'react-bootstrap'
 
 // component representing single product element in a list
 const Product = (props) => {
@@ -38,17 +39,14 @@ const ProductList = () => {
     productsToShow = products.slice(minProductIndex, maxProductIndex)
   }
 
-  // css for table
-  const productListStyle = {
-    "width": "80%",
-    "border": "1px solid black"
-  }
+  // show current page info
+  const currentPageInfo = `(${page}/${Math.ceil(products.length / 25)})`
 
   // render
   return (
     <div>
-      <h2>Product category: {category}</h2>
-      <table style={productListStyle}>
+      <h2>Product category: {category} {currentPageInfo}</h2>
+      <Table striped="true" bordered="true" hover="true" variant="dark">
         <thead>
           <tr>
             <th>Name</th>
@@ -59,7 +57,7 @@ const ProductList = () => {
           </tr>
         </thead>
         <tbody>
-          {productsToShow.map(p => <Product key={p.id} 
+          {productsToShow.map(p => <Product key={p.id}
             name={p.name}
             manufacturer={p.manufacturer}
             color={p.color}
@@ -67,7 +65,7 @@ const ProductList = () => {
             availability={p.availability}
           />)}
         </tbody>
-      </table>
+      </Table>
     </div>
   )
 }
