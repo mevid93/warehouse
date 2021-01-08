@@ -47,10 +47,10 @@ const ProductList = () => {
       for (let a of availabilities) {
         if (a !== undefined && a.response !== undefined) {
           for (let o of a.response) {
-            if (o !== undefined && o.id != undefined && o.id.toUpperCase() === p.id.toUpperCase()) {
+            if (o !== undefined && o.id !== undefined && o.id.toUpperCase() === p.id.toUpperCase()) {
               const start = o.DATAPAYLOAD.indexOf("<INSTOCKVALUE>")
               const end = o.DATAPAYLOAD.indexOf("</INSTOCKVALUE>")
-              p.availability = o.DATAPAYLOAD.substring(start+14, end)
+              p.availability = o.DATAPAYLOAD.substring(start + 14, end)
               updated = true
               break
             }
@@ -61,11 +61,6 @@ const ProductList = () => {
       if (updated === false) p.availability = "???"
     }
   })
-
-  //availabilities.forEach(dataObj => {
-  //  if (dataObj !== undefined) { return }
-  //  dataObj.response.forEach(obj => { })
-  //})
 
   // show current page info
   const currentPageInfo = `(${page}/${Math.ceil(products.length / 25)})`

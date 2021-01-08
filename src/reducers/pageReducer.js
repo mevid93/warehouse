@@ -23,7 +23,7 @@ export const pageChange = page => {
 // action reducer to go the previous page
 export const pagePrevious = page => {
   return {
-    type : "PREVIOUS"
+    type: "PREVIOUS"
   }
 }
 
