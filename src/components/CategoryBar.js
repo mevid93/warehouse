@@ -1,6 +1,6 @@
 import { categoryChange } from '../reducers/categoryReducer'
 import { useDispatch } from 'react-redux'
-import listingService from '../services/listingService'
+import productService from '../services/productService'
 import { productsChange } from '../reducers/productsReducer'
 import { pageChange } from '../reducers/pageReducer'
 
@@ -22,13 +22,13 @@ const CategoryBar = ({ categories }) => {
 
   // function to execute when catecory name is clicked
   const handleCategoryClick = (category) => {
-    listingService
+    productService
       .getAll(category)
       .then(products => {
         dispatch(pageChange(1))
         dispatch(productsChange(products))
       })
-      .catch(error => console.log(error))
+      .catch(() => "Error: could not load products!")
     dispatch(categoryChange(category))
   }
 

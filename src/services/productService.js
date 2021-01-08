@@ -5,8 +5,15 @@ const baseUrl = '/v2/products'
 const getAll = (category) => {
   return axios
     .get(`${baseUrl}/${category}`)
-    .then(response => response.data)
-    .catch(error => console.log(error))
+    .then(response => {
+      const products = response.data
+      // set information that availability is still loading
+      products.forEach(p => {
+        p.availability = "Loading..."
+      });
+      return products
+    })
+    .catch()
 }
 
 const service = { getAll }

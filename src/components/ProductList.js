@@ -29,6 +29,7 @@ const ProductList = () => {
   // redux store
   const category = useSelector(state => state.category)
   const products = useSelector(state => state.products)
+  const availabilities = useSelector(state => state.availabilities)
   const page = useSelector(state => state.page)
 
   // on each page, show 25 products
@@ -38,6 +39,33 @@ const ProductList = () => {
   if (products.length > 0) {
     productsToShow = products.slice(minProductIndex, maxProductIndex)
   }
+
+  // for each product to show --> determine their availability information
+  productsToShow.forEach(p => {
+    let updated = false
+    if (availabilities !== undefined && availabilities.length > 0) {
+      for (let a of availabilities) {
+        if (a !== undefined && a.response !== undefined) {
+          for (let o of a.response) {
+            if (o !== undefined && o.id != undefined && o.id.toUpperCase() === p.id.toUpperCase()) {
+              const start = o.DATAPAYLOAD.indexOf("<INSTOCKVALUE>")
+              const end = o.DATAPAYLOAD.indexOf("</INSTOCKVALUE>")
+              p.availability = o.DATAPAYLOAD.substring(start+14, end)
+              updated = true
+              break
+            }
+          }
+          if (updated) break
+        }
+      }
+      if (updated === false) p.availability = "???"
+    }
+  })
+
+  //availabilities.forEach(dataObj => {
+  //  if (dataObj !== undefined) { return }
+  //  dataObj.response.forEach(obj => { })
+  //})
 
   // show current page info
   const currentPageInfo = `(${page}/${Math.ceil(products.length / 25)})`

@@ -5,14 +5,16 @@ import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import categoryReducer from './reducers/categoryReducer';
 import productsReducer from './reducers/productsReducer';
-import pageReducer from './reducers/pageReducer'
+import availabilityReducer from './reducers/availabilityReducer';
+import pageReducer from './reducers/pageReducer';
 import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
 
 // create combined reducer
 const reducer = combineReducers({
   category: categoryReducer,
   products: productsReducer,
-  page: pageReducer
+  page: pageReducer,
+  availabilities: availabilityReducer
 })
 
 // create store
