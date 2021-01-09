@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = '/v2/products'
+const baseUrl = '/api/products'
 
 // get all products from a given category
 const getAll = (category) => {
